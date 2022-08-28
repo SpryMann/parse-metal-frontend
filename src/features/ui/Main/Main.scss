@@ -1,0 +1,41 @@
+.main {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 3rem;
+  height: 100%;
+  overflow: auto;
+  transition: left 0.3s ease;
+
+  &__content {
+    display: flex;
+    gap: 3rem;
+
+    @media screen and (max-width: 1200px) {
+      flex-direction: column;
+    }
+  }
+
+  &__col {
+    width: 50%;
+
+    &--big {
+      width: calc(65% - 1.5rem);
+
+      @media screen and (max-width: 1200px) {
+        width: 100%;
+      }
+    }
+
+    &--small {
+      width: calc(35% - 1.5rem);
+
+      @media screen and (max-width: 1200px) {
+        width: 100%;
+      }
+    }
+  }
+}

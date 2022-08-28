@@ -1,0 +1,40 @@
+@import "src/features/ui/variables.scss";
+
+.auth {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  @media screen and (max-width: 576px) {
+    align-items: flex-start;
+  }
+
+  &__title {
+    margin-bottom: 1rem;
+    font-weight: 600;
+    font-size: 2rem;
+  }
+
+  &__subtitle {
+    margin-bottom: 2rem;
+  }
+
+  &__error {
+    margin-bottom: 2rem;
+    color: $redColor;
+  }
+
+  &__link {
+    margin-left: 1rem;
+    color: $blueColor;
+  }
+
+  &__form {
+    width: 30rem;
+
+    @media screen and (max-width: 576px) {
+      width: 100%;
+    }
+  }
+}

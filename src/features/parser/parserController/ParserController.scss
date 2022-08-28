@@ -1,0 +1,19 @@
+@import "src/features/ui/variables.scss";
+
+.parse {
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0px 5px 10px 2px rgba(16, 16, 16, 0.2);
+
+  & .logs {
+    border-radius: 10px;
+    padding: 1rem;
+    height: 15rem;
+    color: $darkGrayColor;
+    overflow: auto;
+
+    &__item {
+      margin-bottom: 1rem;
+    }
+  }
+}
