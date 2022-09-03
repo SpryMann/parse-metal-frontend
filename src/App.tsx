@@ -59,7 +59,10 @@ function App() {
         {!isAuth && (
           <>
             <Route path="/" element={<Navigate to="/login" />} />
-            <Route path="/categories" element={<Navigate to="/login" />} />
+            <Route path="/categories">
+              <Route index element={<Navigate to="/login" />} />
+              <Route path="*" element={<Navigate to="/login" />} />
+            </Route>
             <Route path="/products" element={<Navigate to="/login" />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/registration" element={<RegistrationPage />} />
