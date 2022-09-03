@@ -12,4 +12,6 @@ export type StateContextType = {
   setIsAuth: React.Dispatch<React.SetStateAction<boolean>>;
   user: IUser;
   setUser: React.Dispatch<React.SetStateAction<IUser>>;
+  isActiveAdditionBar: boolean;
+  setIsActiveAdditionBar: React.Dispatch<React.SetStateAction<boolean>>;
 };

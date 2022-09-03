@@ -5,6 +5,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { Link } from "react-router-dom";
 import { ICategory } from "./categoriesTable.types";
 import RequestsService from "src/http/requests";
 
@@ -18,7 +19,9 @@ const columns = [
   columnHelper.accessor((row) => row.title, {
     id: "title",
     header: () => "Название",
-    cell: (info) => info.getValue(),
+    cell: (info) => (
+      <Link to={info.row.original.id.toString()}>{info.getValue()}</Link>
+    ),
   }),
   columnHelper.accessor((row) => row.productsCount, {
     id: "productsCount",

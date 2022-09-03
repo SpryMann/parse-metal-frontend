@@ -1,7 +1,7 @@
 import React, { HTMLInputTypeAttribute } from "react";
 
 export type FormType = {
-  className: string[];
+  className?: string[];
   children: React.ReactNode;
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
 };

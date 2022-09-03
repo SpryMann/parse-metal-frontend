@@ -17,6 +17,7 @@ import {
 } from "src/pages";
 import { useStateContext } from "./hooks/useStateContext";
 import { AuthResponse } from "./http/requests.types";
+import SingleCategoryPage from "./pages/SingleCategoryPage";
 
 function App() {
   const { isAuth, setIsAuth, setUser } = useStateContext();
@@ -38,6 +39,7 @@ function App() {
         setIsAuth(true);
         setIsLoading(false);
       } catch (error) {
+        localStorage.removeItem("token");
         console.log(error);
       }
     }
@@ -64,7 +66,10 @@ function App() {
           </>
         )}
         <Route path="/" element={<Home />} />
-        <Route path="/categories" element={<CategoriesPage />} />
+        <Route path="/categories">
+          <Route index element={<CategoriesPage />} />
+          <Route path=":id" element={<SingleCategoryPage />} />
+        </Route>
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/login" element={<Navigate to="/" />} />
         <Route path="/registration" element={<Navigate to="/" />} />

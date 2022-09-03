@@ -7,6 +7,8 @@ const StateContextProvider = ({ children }: StateContextProviderProps) => {
   const [isActiveSidebar, setIsActiveSidebar] = useState<boolean>(false);
   const [isAuth, setIsAuth] = useState<boolean>(false);
   const [user, setUser] = useState<IUser>({} as IUser);
+  const [isActiveAdditionBar, setIsActiveAdditionBar] =
+    useState<boolean>(false);
 
   return (
     <StateContext.Provider
@@ -17,6 +19,8 @@ const StateContextProvider = ({ children }: StateContextProviderProps) => {
         setIsAuth,
         user,
         setUser,
+        isActiveAdditionBar,
+        setIsActiveAdditionBar,
       }}
     >
       {children}

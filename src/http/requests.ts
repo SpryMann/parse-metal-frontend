@@ -48,8 +48,36 @@ export default class RequestsService {
     return $api.get<IProduct[]>("/product/retrieve");
   }
 
+  static async getProductsByCategory(
+    categoryId: number
+  ): Promise<AxiosResponse<IProduct[]>> {
+    return $api.get<IProduct[]>(`/product/retrieve/category/${categoryId}`);
+  }
+
   static async uploadProducts(data: FormData): Promise<void> {
     return $api.post("/product/upload", data);
+  }
+
+  static async createProduct(data: {
+    title: string;
+    link: string;
+    targetLink: string;
+    categoryId: number;
+  }): Promise<void> {
+    return $api.post("/product/", data);
+  }
+
+  static async updateProduct(
+    id: number,
+    title: string,
+    link: string,
+    targetLink: string
+  ): Promise<void> {
+    return $api.put(`/product/${id}`, { title, link, targetLink });
+  }
+
+  static async deleteProduct(id: number): Promise<void> {
+    return $api.delete(`/product/${id}`);
   }
 
   static async startParse(
