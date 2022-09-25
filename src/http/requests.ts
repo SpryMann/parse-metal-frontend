@@ -88,6 +88,14 @@ export default class RequestsService {
     });
   }
 
+  static async updateExisted(
+    categories: { id: number; name: string; percent: number }[]
+  ): Promise<AxiosResponse<string>> {
+    return $api.post<string>("/category/update", {
+      categories,
+    });
+  }
+
   static async getParseStatus(): Promise<AxiosResponse<IParserStatus>> {
     return $api.get<IParserStatus>("/parser/status");
   }

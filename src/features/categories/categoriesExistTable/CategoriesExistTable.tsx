@@ -39,6 +39,7 @@ const defaultColumn: Partial<ColumnDef<IExistedCategory>> = {
 const CategoriesExistTable = () => {
   const { isParsing, setIsParsing, setCategoriesToParse } =
     useHomePageContext();
+  const [isUpdating, setIsUpdating] = useState<boolean>(false);
   const [rowSelection, setRowSelection] = useState({});
   const [data, setData] = useState<IExistedCategory[]>(
     [] as IExistedCategory[]
@@ -127,6 +128,23 @@ const CategoriesExistTable = () => {
     table.toggleAllRowsSelected();
   };
 
+  const handleUpdateExisted = async () => {
+    try {
+      setIsUpdating(true);
+      await RequestsService.updateExisted(
+        table.getRowModel().flatRows.map((row) => ({
+          id: row.original.id,
+          name: row.original.title,
+          percent: row.original.percent,
+        }))
+      );
+      setIsUpdating(false);
+    } catch (error) {
+      console.log(error);
+      setIsUpdating(false);
+    }
+  };
+
   useEffect(() => {
     async function fetchExistedCategories() {
       try {
@@ -151,6 +169,14 @@ const CategoriesExistTable = () => {
         onClick={handleStartParsing}
       >
         <span className="btn__text">Начать парсинг</span>
+      </Button>
+      <Button
+        className={classNames("btn", "btn--text", "component__btn", {
+          "btn--disabled": isUpdating || isParsing,
+        })}
+        onClick={handleUpdateExisted}
+      >
+        <span className="btn__text">Сохранить</span>
       </Button>
       <table className="table">
         <thead className="table__head">

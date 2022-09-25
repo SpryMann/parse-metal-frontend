@@ -16,6 +16,7 @@ const ProductsUpload = () => {
   const [selectedOption, setSelectedOption] = useState<
     SingleValue<SelectOptionType>
   >({ value: -1, label: "Выберите категорию" });
+  const [isUploading, setIsUploading] = useState<boolean>(false);
 
   const handleUpdateCategories = async () => {
     try {
@@ -27,6 +28,7 @@ const ProductsUpload = () => {
       setIsUpdatingCategories(false);
     } catch (error) {
       console.log(error);
+      setIsUpdatingCategories(false);
     }
   };
 
@@ -38,6 +40,7 @@ const ProductsUpload = () => {
 
   const handleSubmitUpload = async () => {
     try {
+      setIsUploading(true);
       const data = new FormData();
       data.append("excelFile", file);
       data.append("category", selectedOption!.value.toString());
@@ -45,8 +48,10 @@ const ProductsUpload = () => {
       await RequestsService.uploadProducts(data);
       setFile({} as File);
       setSelectedOption({ value: -1, label: "Выберите категорию" });
+      setIsUploading(false);
     } catch (error) {
       console.log(error);
+      setIsUploading(false);
     }
   };
 
@@ -71,9 +76,9 @@ const ProductsUpload = () => {
       <div className="category-adding">
         <Select
           className="category-adding__select"
-          defaultValue={selectedOption}
           onChange={setSelectedOption}
           options={options}
+          value={selectedOption}
         />
         <Button
           className={classNames(
@@ -104,7 +109,8 @@ const ProductsUpload = () => {
         />
         <Button
           className={classNames("btn", "btn--text", "category-adding__btn", {
-            "btn--disabled": !file.name || selectedOption?.value === -1,
+            "btn--disabled":
+              !file.name || selectedOption?.value === -1 || isUploading,
           })}
           onClick={handleSubmitUpload}
         >
