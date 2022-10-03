@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import "./../Auth.scss";
 import {
   Button,
@@ -41,12 +40,6 @@ const LoginForm = () => {
   return (
     <div className="auth">
       <h2 className="auth__title">Логин</h2>
-      <p className="auth__subtitle">
-        Еще нет аккаунта?
-        <Link className="auth__link" to="/registration">
-          Регистрация
-        </Link>
-      </p>
       <p className="auth__error">{message}</p>
       <Form className={["auth__form"]} onSubmit={handleSubmitLogin}>
         <FormInputWrap>

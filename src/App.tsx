@@ -13,7 +13,6 @@ import {
   Home,
   LoginPage,
   ProductsPage,
-  RegistrationPage,
 } from "src/pages";
 import { useStateContext } from "./hooks/useStateContext";
 import { AuthResponse } from "./http/requests.types";
@@ -65,7 +64,7 @@ function App() {
             </Route>
             <Route path="/products" element={<Navigate to="/login" />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/registration" element={<RegistrationPage />} />
+            <Route path="/registration" element={<LoginPage />} />
           </>
         )}
         <Route path="/" element={<Home />} />
