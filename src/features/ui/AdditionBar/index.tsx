@@ -1,35 +1,32 @@
-import classNames from "classnames";
 import React from "react";
+import classNames from "classnames";
 import { BsArrowLeft } from "react-icons/bs";
-import { Button } from "src/features/ui";
-import { AdditionBarProps } from "./additionBar.types";
-import { useStateContext } from "src/hooks/useStateContext";
-import { useSingleCategoryPageContext } from "src/hooks/useSingleCategoryPageContext";
+import Button from "../Button";
 import "./AdditionBar.scss";
-import { IProduct } from "src/features/products/productsTable/productsTable.types";
+import { useStateContext } from "src/hooks/useStateContext";
 
-const AdditionBar = ({ className, children }: AdditionBarProps) => {
-  const { setIsActiveAdditionBar } = useStateContext();
-  const { additionBarTitle, setAdditionBarTitle, setSelectedProduct } =
-    useSingleCategoryPageContext();
+const AdditionBar = () => {
+  const { additionBarState, setAdditionBarState } = useStateContext();
 
   const handleClose = () => {
-    setAdditionBarTitle("");
-    setIsActiveAdditionBar(false);
-    setSelectedProduct({} as IProduct);
+    setAdditionBarState((prev) => ({ ...prev, isEnable: false, title: "" }));
   };
 
   return (
-    <div className={classNames("addition-bar", className)}>
+    <div
+      className={classNames("addition-bar", {
+        "addition-bar--active": additionBarState.isEnable,
+      })}
+    >
       <div className="addition-bar__header">
-        <Button className={classNames("btn")} onClick={handleClose}>
+        <Button className="btn" onClick={handleClose}>
           <BsArrowLeft />
         </Button>
-        {!!additionBarTitle && (
-          <h2 className="addition-bar__title">{additionBarTitle}</h2>
+        {!!additionBarState.title && (
+          <h2 className="addition-bar__title">{additionBarState.title}</h2>
         )}
       </div>
-      {children}
+      {additionBarState.content}
     </div>
   );
 };

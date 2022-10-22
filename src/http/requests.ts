@@ -1,5 +1,6 @@
 import { ICategory } from "@features/categories/categoriesTable/categoriesTable.types";
 import { IProduct } from "@features/products/productsTable/productsTable.types";
+import { ISettings } from "@features/ui/Settings/settings.types";
 import { AxiosResponse } from "axios";
 import $api from ".";
 import {
@@ -98,5 +99,13 @@ export default class RequestsService {
 
   static async getParseStatus(): Promise<AxiosResponse<IParserStatus>> {
     return $api.get<IParserStatus>("/parser/status");
+  }
+
+  static async getSettings(): Promise<AxiosResponse<ISettings>> {
+    return $api.get<ISettings>("/settings");
+  }
+
+  static async updateSettings(newSettings: ISettings): Promise<void> {
+    return $api.put("/settings", { ...newSettings });
   }
 }

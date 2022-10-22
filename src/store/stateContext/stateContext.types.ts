@@ -1,5 +1,6 @@
 import React from "react";
 import { IUser } from "src/http/requests.types";
+import { AdditionBarStateType } from "@features/ui/additionBar/additionBar.types";
 
 export type StateContextProviderProps = {
   children: React.ReactNode;
@@ -12,6 +13,8 @@ export type StateContextType = {
   setIsAuth: React.Dispatch<React.SetStateAction<boolean>>;
   user: IUser;
   setUser: React.Dispatch<React.SetStateAction<IUser>>;
-  isActiveAdditionBar: boolean;
-  setIsActiveAdditionBar: React.Dispatch<React.SetStateAction<boolean>>;
+  additionBarState: AdditionBarStateType;
+  setAdditionBarState: React.Dispatch<
+    React.SetStateAction<AdditionBarStateType>
+  >;
 };

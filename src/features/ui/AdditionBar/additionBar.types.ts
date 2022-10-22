@@ -1,6 +1,7 @@
 import React from "react";
 
-export type AdditionBarProps = {
-  className: string;
-  children: React.ReactNode;
+export type AdditionBarStateType = {
+  isEnable: boolean;
+  title: string;
+  content: React.ReactNode;
 };

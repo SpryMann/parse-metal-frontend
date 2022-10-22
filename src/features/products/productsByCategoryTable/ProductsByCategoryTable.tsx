@@ -8,23 +8,20 @@ import {
   Row,
   useReactTable,
 } from "@tanstack/react-table";
-import RequestsService from "src/http/requests";
-import { IProduct } from "../productsTable/productsTable.types";
 import { BsPlusLg } from "react-icons/bs";
 import { MdEdit, MdDelete } from "react-icons/md";
+import RequestsService from "src/http/requests";
+import { IProduct } from "../productsTable/productsTable.types";
 import { Button } from "src/features/ui";
+import { ProductForm } from "../productForm";
 import { useStateContext } from "src/hooks/useStateContext";
 import { useSingleCategoryPageContext } from "src/hooks/useSingleCategoryPageContext";
 
 const ProductsByCategoryTable = () => {
   const params = useParams();
-  const { isActiveAdditionBar, setIsActiveAdditionBar } = useStateContext();
-  const {
-    setAdditionBarTitle,
-    setProductFormMode,
-    selectedProduct,
-    setSelectedProduct,
-  } = useSingleCategoryPageContext();
+  const { additionBarState, setAdditionBarState } = useStateContext();
+  const { setProductFormMode, selectedProduct, setSelectedProduct } =
+    useSingleCategoryPageContext();
   const [data, setData] = useState<IProduct[]>([] as IProduct[]);
   const newColumns = useMemo<ColumnDef<IProduct>[]>(
     () => [
@@ -70,15 +67,23 @@ const ProductsByCategoryTable = () => {
   }
 
   const handleClickCreate = () => {
-    setAdditionBarTitle("Добавление товара");
     setProductFormMode("create");
-    setIsActiveAdditionBar(true);
+    setAdditionBarState((prev) => ({
+      ...prev,
+      title: "Добавление товара",
+      isEnable: true,
+      content: <ProductForm />,
+    }));
   };
 
   const handleClickEdit = () => {
-    setAdditionBarTitle("Редактирование товара");
     setProductFormMode("edit");
-    setIsActiveAdditionBar(true);
+    setAdditionBarState((prev) => ({
+      ...prev,
+      title: "Редактирование товара",
+      isEnable: true,
+      content: <ProductForm />,
+    }));
   };
 
   const handleClickDelete = async () => {
@@ -105,7 +110,7 @@ const ProductsByCategoryTable = () => {
     }
 
     fetchProductsByCategory();
-  }, []);
+  }, [params.id]);
 
   return (
     <div className="component">
@@ -120,7 +125,7 @@ const ProductsByCategoryTable = () => {
       >
         <Button
           className={classNames("btn", {
-            "btn--disabled": isActiveAdditionBar,
+            "btn--disabled": additionBarState.isEnable,
           })}
           onClick={handleClickCreate}
         >
@@ -129,7 +134,8 @@ const ProductsByCategoryTable = () => {
         <Button
           className={classNames("btn", {
             "btn--disabled":
-              !selectedProduct.hasOwnProperty("id") || isActiveAdditionBar,
+              !selectedProduct.hasOwnProperty("id") ||
+              additionBarState.isEnable,
           })}
           onClick={handleClickEdit}
         >
@@ -138,7 +144,8 @@ const ProductsByCategoryTable = () => {
         <Button
           className={classNames("btn", {
             "btn--disabled":
-              !selectedProduct.hasOwnProperty("id") || isActiveAdditionBar,
+              !selectedProduct.hasOwnProperty("id") ||
+              additionBarState.isEnable,
           })}
           onClick={handleClickDelete}
         >

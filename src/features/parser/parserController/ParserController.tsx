@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import "./ParserController.scss";
 import { useHomePageContext } from "src/hooks/useHomePageContext";
 import RequestsService from "src/http/requests";
@@ -12,6 +12,7 @@ interface IParseLog {
 const ParserController = () => {
   const { isParsing, setIsParsing, categoriesToParse } = useHomePageContext();
   const [parseLogs, setParseLogs] = useState<IParseLog[]>([] as IParseLog[]);
+  const [lastParseTimestamp, setLastParseTimestamp] = useState<number>(0);
 
   const startParse = async () => {
     try {
@@ -48,6 +49,12 @@ const ParserController = () => {
         response.data.completed &&
         response.data.logs.slice(-1)[0].completed
       ) {
+        await new Promise((resolve) => {
+          setTimeout(resolve, 1000);
+        });
+
+        setParseLogs([] as IParseLog[]);
+        setLastParseTimestamp(response.data.lastParsingDate);
         return setIsParsing(false);
       }
 
@@ -56,6 +63,33 @@ const ParserController = () => {
       console.log(error);
     }
   };
+
+  const beautifiedLastParseDate = useMemo(() => {
+    return new Date(lastParseTimestamp).toLocaleString();
+  }, [lastParseTimestamp]);
+
+  useEffect(() => {
+    let isSubscribed = true;
+
+    async function getStatus() {
+      try {
+        const response = await RequestsService.getParseStatus();
+        return response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    getStatus().then((data) => {
+      if (isSubscribed) {
+        setLastParseTimestamp(data!.lastParsingDate);
+      }
+    });
+
+    return () => {
+      isSubscribed = false;
+    };
+  }, []);
 
   useEffect(() => {
     if (isParsing) {
@@ -87,6 +121,9 @@ const ParserController = () => {
             </>
           ) : (
             <p className="logs__item">Для получения данных начните парсинг</p>
+          )}
+          {Boolean(lastParseTimestamp) && !isParsing && (
+            <p>Дата последнего парсинга: {beautifiedLastParseDate}</p>
           )}
         </div>
       </div>

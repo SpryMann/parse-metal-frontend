@@ -8,12 +8,7 @@ import {
 import axios from "axios";
 import "./App.scss";
 import { Sidebar } from "src/features/ui";
-import {
-  CategoriesPage,
-  Home,
-  LoginPage,
-  ProductsPage,
-} from "src/pages";
+import { CategoriesPage, Home, LoginPage, ProductsPage } from "src/pages";
 import { useStateContext } from "./hooks/useStateContext";
 import { AuthResponse } from "./http/requests.types";
 import SingleCategoryPage from "./pages/SingleCategoryPage";

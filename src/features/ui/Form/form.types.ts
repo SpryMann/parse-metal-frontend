@@ -17,6 +17,18 @@ export type FormInputType = {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
+export type FormInputNumberType = {
+  value: string;
+  min?: number;
+  max?: number;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+};
+
+export type FormInputCheckboxType = {
+  checked: boolean;
+  setChecked: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
 export type FormLabelType = {
   children: React.ReactNode;
 };

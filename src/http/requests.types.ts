@@ -24,4 +24,5 @@ export interface IParserStatus {
     completed: boolean;
     success: boolean;
   }[];
+  lastParsingDate: number;
 }

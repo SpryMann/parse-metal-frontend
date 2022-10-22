@@ -6,8 +6,6 @@ export type SingleCategoryPageContextProviderProps = {
 };
 
 export type SingleCategoryPageContextType = {
-  additionBarTitle: string;
-  setAdditionBarTitle: React.Dispatch<React.SetStateAction<string>>;
   productFormMode: "create" | "edit";
   setProductFormMode: React.Dispatch<React.SetStateAction<"create" | "edit">>;
   selectedProduct: IProduct;

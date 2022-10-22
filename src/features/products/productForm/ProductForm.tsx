@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import classNames from "classnames";
 import {
   Button,
@@ -10,11 +11,12 @@ import {
 import { useSingleCategoryPageContext } from "src/hooks/useSingleCategoryPageContext";
 import { useStateContext } from "src/hooks/useStateContext";
 import RequestsService from "src/http/requests";
-import { useParams } from "react-router-dom";
+import { IProduct } from "../productsTable/productsTable.types";
 
 const ProductForm = () => {
-  const { isActiveAdditionBar, setIsActiveAdditionBar } = useStateContext();
-  const { productFormMode, selectedProduct } = useSingleCategoryPageContext();
+  const { additionBarState, setAdditionBarState } = useStateContext();
+  const { productFormMode, selectedProduct, setSelectedProduct } =
+    useSingleCategoryPageContext();
   const { id: categoryId } = useParams();
   const [title, setTitle] = useState<string>("");
   const [link, setLink] = useState<string>("");
@@ -31,7 +33,7 @@ const ProductForm = () => {
         categoryId: parseInt(categoryId!),
       });
       setIsLoading(false);
-      setIsActiveAdditionBar(false);
+      setAdditionBarState((prev) => ({ ...prev, isEnable: false }));
       window.location.reload();
     } catch (error) {
       console.log(error);
@@ -49,7 +51,7 @@ const ProductForm = () => {
         targetLink
       );
       setIsLoading(false);
-      setIsActiveAdditionBar(false);
+      setAdditionBarState((prev) => ({ ...prev, isEnable: false }));
       window.location.reload();
     } catch (error) {
       console.log(error);
@@ -76,12 +78,13 @@ const ProductForm = () => {
   }, [productFormMode, selectedProduct]);
 
   useEffect(() => {
-    if (!isActiveAdditionBar) {
+    if (!additionBarState.isEnable) {
       setTitle("");
       setLink("");
       setTargetLink("");
+      setSelectedProduct && setSelectedProduct({} as IProduct);
     }
-  }, [isActiveAdditionBar]);
+  }, [additionBarState.isEnable, setSelectedProduct]);
 
   return (
     <Form onSubmit={(e) => handleSubmit(e)}>

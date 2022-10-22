@@ -1,3 +1,4 @@
+import { AdditionBarStateType } from "@features/ui/additionBar/additionBar.types";
 import { useState } from "react";
 import { IUser } from "src/http/requests.types";
 import { StateContext } from "./StateContext";
@@ -7,8 +8,12 @@ const StateContextProvider = ({ children }: StateContextProviderProps) => {
   const [isActiveSidebar, setIsActiveSidebar] = useState<boolean>(false);
   const [isAuth, setIsAuth] = useState<boolean>(false);
   const [user, setUser] = useState<IUser>({} as IUser);
-  const [isActiveAdditionBar, setIsActiveAdditionBar] =
-    useState<boolean>(false);
+  const [additionBarState, setAdditionBarState] =
+    useState<AdditionBarStateType>({
+      isEnable: false,
+      title: "",
+      content: <></>,
+    });
 
   return (
     <StateContext.Provider
@@ -19,8 +24,8 @@ const StateContextProvider = ({ children }: StateContextProviderProps) => {
         setIsAuth,
         user,
         setUser,
-        isActiveAdditionBar,
-        setIsActiveAdditionBar,
+        additionBarState,
+        setAdditionBarState,
       }}
     >
       {children}
