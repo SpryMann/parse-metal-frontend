@@ -1,8 +1,8 @@
-import { AdditionBarStateType } from "@features/ui/additionBar/additionBar.types";
 import { useState } from "react";
 import { IUser } from "src/http/requests.types";
 import { StateContext } from "./StateContext";
 import { StateContextProviderProps } from "./stateContext.types";
+import { AdditionBarStateType } from "@features/ui/AdditionBar/additionBar.types";
 
 const StateContextProvider = ({ children }: StateContextProviderProps) => {
   const [isActiveSidebar, setIsActiveSidebar] = useState<boolean>(false);

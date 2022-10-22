@@ -5,5 +5,5 @@ export { default as Topbar } from "./Topbar";
 export * from "./Table";
 export * from "./Form";
 export { default as IndeterminateCheckbox } from "./IndeterminateCheckbox";
-export { default as AdditionBar } from "./additionBar";
+export { default as AdditionBar } from "./AdditionBar";
 export { default as Settings } from "./Settings";

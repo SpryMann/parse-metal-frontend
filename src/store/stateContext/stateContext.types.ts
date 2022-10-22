@@ -1,6 +1,6 @@
 import React from "react";
 import { IUser } from "src/http/requests.types";
-import { AdditionBarStateType } from "@features/ui/additionBar/additionBar.types";
+import { AdditionBarStateType } from "@features/ui/AdditionBar/additionBar.types";
 
 export type StateContextProviderProps = {
   children: React.ReactNode;
