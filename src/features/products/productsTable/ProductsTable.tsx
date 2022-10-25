@@ -41,16 +41,27 @@ const ProductsTable = () => {
   });
 
   useEffect(() => {
+    let isSubscribed = true;
+
     async function fetchProducts() {
       try {
         const response = await RequestsService.getAllProducts();
-        setData(response.data);
+
+        return response.data;
       } catch (error) {
         console.log(error);
       }
     }
 
-    fetchProducts();
+    fetchProducts().then((data) => {
+      if (isSubscribed && data) {
+        setData(data);
+      }
+    });
+
+    return () => {
+      isSubscribed = false;
+    };
   }, []);
 
   return (

@@ -1,8 +1,8 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 import { useParams } from "react-router-dom";
 import {
-  ColumnDef,
+  createColumnHelper,
   flexRender,
   getCoreRowModel,
   Row,
@@ -23,38 +23,52 @@ const ProductsByCategoryTable = () => {
   const { setProductFormMode, selectedProduct, setSelectedProduct } =
     useSingleCategoryPageContext();
   const [data, setData] = useState<IProduct[]>([] as IProduct[]);
-  const newColumns = useMemo<ColumnDef<IProduct>[]>(
-    () => [
-      {
-        id: "selection",
-        header: () => "Выбор",
-        cell: ({ row }) => (
-          <input
-            type="checkbox"
-            value={row.original.id}
-            checked={row.original.id === selectedProduct.id}
-            onChange={() => handleSelection(row)}
-          />
-        ),
-      },
-      {
-        accessorFn: (row) => row.id,
-        id: "Id",
-        header: () => "Идентификатор",
-        cell: (info) => info.getValue(),
-      },
-      {
-        accessorFn: (row) => row.title,
-        id: "Title",
-        header: () => "Название",
-        cell: (info) => info.getValue(),
-      },
-    ],
-    [selectedProduct.id]
-  );
+
+  const columnHelper = createColumnHelper<IProduct>();
+  const columns = [
+    columnHelper.display({
+      id: "Selection",
+      header: () => "Выбор",
+      cell: ({ row }) => (
+        <input
+          type="checkbox"
+          value={row.original.id}
+          checked={row.original.id === selectedProduct.id}
+          onChange={() => handleSelection(row)}
+        />
+      ),
+    }),
+    columnHelper.accessor((row) => row.title, {
+      id: "Title",
+      header: () => "Название",
+      cell: (info) => (
+        <a
+          href={info.row.original.link}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {info.getValue()}
+        </a>
+      ),
+    }),
+    columnHelper.accessor((row) => row.targetLink, {
+      id: "Target",
+      header: () => "Ссылка на оригинал",
+      cell: (info) => (
+        <a
+          href={info.row.original.targetLink}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Ссылка на оригинал
+        </a>
+      ),
+    }),
+  ];
+
   const table = useReactTable({
     data,
-    columns: newColumns,
+    columns,
     getCoreRowModel: getCoreRowModel(),
   });
 
@@ -96,20 +110,31 @@ const ProductsByCategoryTable = () => {
   };
 
   useEffect(() => {
+    let isSubscribed = true;
+
     async function fetchProductsByCategory() {
       try {
         if (params.id) {
           const response = await RequestsService.getProductsByCategory(
             parseInt(params.id)
           );
-          setData(response.data);
+
+          return response.data;
         }
       } catch (error) {
         console.log(error);
       }
     }
 
-    fetchProductsByCategory();
+    fetchProductsByCategory().then((data) => {
+      if (isSubscribed && data) {
+        setData(data);
+      }
+    });
+
+    return () => {
+      isSubscribed = false;
+    };
   }, [params.id]);
 
   return (
